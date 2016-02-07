@@ -1,7 +1,7 @@
-Role Name
+postgresql
 =========
 
-A brief description of the role goes here.
+Installs and manages postgresql. 
 
 Requirements
 ------------
@@ -30,9 +30,11 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+MIT, BSD, [WTFPL](http://www.wtfpl.net)
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+
+Derived from [zzet's excellent postgresql role](https://github.com/zzet/ansible-postgresql-role)
+

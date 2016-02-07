@@ -1,2 +1,49 @@
 ---
 # tasks file for postgresql
+
+
+- name: make apt-cache up to date 
+  become: yes 
+  apt: update_cache=yes
+
+- name: add official postgresql repository key
+  become: yes  
+  apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
+  when: pg_repo == 'postgresql.org'
+
+- name: add official postgresql repository key 
+  become: yes 
+  apt_repository: state=present repo='deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release}}-pgdg main {{ pg_version }}'
+  when: pg_repo == 'postgresql.org'
+
+- name: install pogresql server and client 
+  become: yes
+  apt: pkg={{ item }}
+  with_items:
+    - postgresql-{{ pg_version }} 
+    - postgresql-client-{{ pg_version }}
+    - python-psycopg2
+  register: db_setup
+  tags: postgres_packages 
+
+- name: install postgresql dev 
+  become: yes 
+  apt: name=postgresql-server-dev-{{ pg_version }} state=present
+  when: pg_dev_headers
+
+- name: install postgresql contrib 
+  become: yes 
+  apt: name=postgresql-contrib-{{ pg_version }} state=present
+  when: pg_contrib
+
+- name: update postgres client authentication config file 
+  become: yes 
+  template: src=pg_hba.conf.j2 dest='/etc/postgresql/{{ pg_version }}/main/' backup=yes owner={{ pg_admin_user }} group={{ pg_admin_user }} mode=0644
+  notify: restart postgresql
+  tags: postgres_config
+
+- name: update postgres config file 
+  become: yes
+  template: src=postgres.conf.j2 dest=/etc/postgresql/{{ pg_version }}/postgresql.conf backup=yes owner={{ pg_admin_user }} group={{ pg_admin_user }} mode=0644
+  notify: restart postgresql 
+  tags: postgres_config  
