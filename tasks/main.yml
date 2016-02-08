@@ -2,19 +2,19 @@
 # tasks file for postgresql
 
 
-- name: make apt-cache up to date 
-  become: yes 
-  apt: update_cache=yes
-
 - name: add official postgresql repository key
   become: yes  
   apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc state=present
   when: pg_repo == 'postgresql.org'
 
-- name: add official postgresql repository key 
+- name: add official postgresql repository
   become: yes 
   apt_repository: state=present repo='deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release}}-pgdg main {{ pg_version }}'
   when: pg_repo == 'postgresql.org'
+
+- name: make apt-cache up to date 
+  become: yes 
+  apt: update_cache=yes
 
 - name: install pogresql server and client 
   become: yes
