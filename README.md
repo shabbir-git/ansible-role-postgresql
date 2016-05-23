@@ -1,7 +1,7 @@
 postgresql
 =========
 
-Installs and manages postgresql. 
+Installs and manages postgresql.
 
 Requirements
 ------------
@@ -30,11 +30,10 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-MIT, BSD, [WTFPL](http://www.wtfpl.net)
+MIT
 
 Author Information
 ------------------
 
 
 Derived from [zzet's excellent postgresql role](https://github.com/zzet/ansible-postgresql-role)
-
