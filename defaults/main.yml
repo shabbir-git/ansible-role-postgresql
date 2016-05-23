@@ -2,19 +2,27 @@
 # defaults file for postgresql
 
 # default vars file for pg
-pg_version: 9.3
+pg_version: 9.4
 pg_encoding: 'UTF-8'
 pg_locale: 'en_US.UTF-8'
 
 pg_admin_user: 'postgres'
-pg_defualt_auth_method: 'trust'
+pg_default_auth_method: 'trust'
 
 pg_cluster: 'main'
 pg_cluster_recreate: false
 
+pg_dbname: test1
+pg_extensions:
+  - pg_trgm
+  - hstore
+  - postgres_fdw
+  - pg_stat_statements
+  - pg_buffer_cache
+
 # Extensions setup
-pg_dev_headers: true
-pg_contrib: true
+pg_dev_headers: present
+pg_contrib: present 
 
 pg_postgis: false
 pg_postgis_version: '2.1'
@@ -23,10 +31,10 @@ pg_repo: 'postgresql.org' # unset to use distribution repo
 
 # pg_hba.conf
 pg_cfg_pg_hba_default:
-  - { type: local, database: all, user: '{{ pg_admin_user }}', address: '', method: '{{ pg_defualt_auth_method }}', comment: '' }
-  - { type: local, database: all, user: all, address: '',             method: '{{ pg_defualt_auth_method }}', comment: '"local" is for Unix domain socket connections only' }
-  - { type: host,  database: all, user: all, address: '127.0.0.1/32', method: '{{ pg_defualt_auth_method }}', comment: 'IPv4 local connections:' }
-  - { type: host,  database: all, user: all, address: '::1/128',      method: '{{ pg_defualt_auth_method }}', comment: 'IPv6 local connections:' }
+  - { type: local, database: all, user: '{{ pg_admin_user }}', address: '', method: '{{ pg_default_auth_method }}', comment: '' }
+  - { type: local, database: all, user: all, address: '',             method: '{{ pg_default_auth_method }}', comment: '"local" is for Unix domain socket connections only' }
+  - { type: host,  database: all, user: all, address: '127.0.0.1/32', method: '{{ pg_default_auth_method }}', comment: 'IPv4 local connections:' }
+  - { type: host,  database: all, user: all, address: '::1/128',      method: '{{ pg_default_auth_method }}', comment: 'IPv6 local connections:' }
 
 # postgresql.conf settings
 pg_cfg_pg_hba_passwd_hosts: []
