@@ -20,16 +20,25 @@ pg_extensions:
   - pg_stat_statements
   - pg_buffer_cache
 
+# red hat based distributions
+# go to yum.postgresql.org and find the appropriate url for your
+# os and architecture to set in your playbook
+pg_rpm_url: undefined
+
 # Extensions setup
-pg_dev_headers: present
-pg_contrib: present 
+pg_dev_headers: latest
+pg_contrib: latest
 
 pg_postgis: false
 pg_postgis_version: '2.1'
 
 pg_repo: 'postgresql.org' # unset to use distribution repo
 
+pg_cfg_configure: no
+pg_service_name: postgresql
+
 # pg_hba.conf
+pg_cfg_hba_file: '/etc/postgresql/{{ pg_version }}/main/pg_hba.conf'
 pg_cfg_pg_hba_default:
   - { type: local, database: all, user: '{{ pg_admin_user }}', address: '', method: '{{ pg_default_auth_method }}', comment: '' }
   - { type: local, database: all, user: all, address: '',             method: '{{ pg_default_auth_method }}', comment: '"local" is for Unix domain socket connections only' }
@@ -37,6 +46,7 @@ pg_cfg_pg_hba_default:
   - { type: host,  database: all, user: all, address: '::1/128',      method: '{{ pg_default_auth_method }}', comment: 'IPv6 local connections:' }
 
 # postgresql.conf settings
+pg_cfg_file: "/etc/postgresql/{{ pg_version }}/main/postgresql.conf"
 pg_cfg_pg_hba_passwd_hosts: []
 pg_cfg_pg_hba_trust_hosts: []
 pg_cfg_pg_hba_custom: []
@@ -464,7 +474,7 @@ pg_cfg_srv_xmloption: 'content'
 
 pg_cfg_srv_datestyle: 'iso, mdy'
 pg_cfg_srv_intervalstyle: 'postgres'
-pg_cfg_srv_timezone: 'localtime'
+pg_cfg_srv_timezone: 'UTC'
 pg_cfg_srv_timezone_abbreviations: 'Default' # Select the set of available time zone
                                     # abbreviations.  Currently, there are
                                     #   Default
